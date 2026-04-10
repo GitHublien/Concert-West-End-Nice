@@ -1664,7 +1664,7 @@ body {
     }
 }
 
-/* Plein écran — desktop aussi */
+/* Plein écran — desktop et mobile */
 .audio-player.fullscreen-mode {
     position: fixed !important;
     top: 0 !important;
@@ -1674,45 +1674,157 @@ body {
     height: 100vh !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: center !important;
+    justify-content: flex-start !important;
     align-items: center !important;
     z-index: 99999 !important;
     background: rgba(10,10,10,0.98) !important;
-    padding: 40px !important;
-    gap: 20px !important;
+    padding: 20px 30px !important;
+    gap: 10px !important;
+    overflow-y: auto !important;
 }
 
 .fullscreen-mode .player-info {
-    margin-bottom: 15px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .fullscreen-mode .player-title {
-    font-size: 2rem !important;
+    font-size: clamp(1.3rem, 4vw, 2rem) !important;
 }
 
 .fullscreen-mode .player-composer {
-    font-size: 1.2rem !important;
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem) !important;
 }
 
 .fullscreen-mode .player-controls {
-    gap: 20px;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .fullscreen-mode .player-nav-btn {
-    width: 50px;
-    height: 50px;
+    width: clamp(44px, 8vw, 55px);
+    height: clamp(44px, 8vw, 55px);
 }
 
 .fullscreen-mode .player-play-pause {
-    width: 70px;
-    height: 70px;
+    width: clamp(56px, 10vw, 70px);
+    height: clamp(56px, 10vw, 70px);
 }
 
 .fullscreen-mode .player-progress {
-    max-width: 600px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
+    margin: 5px auto;
 }
 
 .fullscreen-mode .set-controls {
-    margin-top: 15px;
+    width: 100%;
+    max-width: 500px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 0;
+}
+
+.fullscreen-mode .set-delay-label,
+.fullscreen-mode .set-auto-label {
+    margin-left: 0;
+}
+
+/* Ambiance dans le plein écran */
+.fullscreen-amb {
+    width: 100%;
+    max-width: 500px;
+    background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 10px;
+    padding: 12px 15px;
+    margin-top: 10px;
+}
+
+.fullscreen-amb-title {
+    color: var(--or);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.fullscreen-amb-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.fullscreen-amb-controls select {
+    background: #1a1a1a;
+    color: var(--creme);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+}
+
+.fullscreen-amb-seek {
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(201,168,76,0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.fullscreen-amb-seek::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--or);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Programme dans le plein écran (scrollable) */
+.fullscreen-programme {
+    width: 100%;
+    max-width: 500px;
+    max-height: 30vh;
+    overflow-y: auto;
+    margin-top: 10px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding-top: 10px;
+}
+
+.fullscreen-programme .fs-track {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+    color: var(--creme-doux);
+}
+
+.fullscreen-programme .fs-track:hover {
+    background: rgba(201,168,76,0.1);
+}
+
+.fullscreen-programme .fs-track.active {
+    background: rgba(201,168,76,0.15);
+    color: var(--or);
+}
+
+.fullscreen-programme .fs-num {
+    color: var(--or);
+    opacity: 0.6;
+    min-width: 25px;
+    font-size: 0.8rem;
 }

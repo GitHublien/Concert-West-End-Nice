@@ -178,6 +178,9 @@ window.addEventListener('load', function() {
                 // Reset seek
                 seekBar.value = 0;
                 seekBar.style.background = 'rgba(201,168,76,0.2)';
+
+                // Mettre à jour le programme plein écran
+                if (typeof updateFsProgramme === 'function') updateFsProgramme();
             };
         })(btns[i]);
     }
@@ -611,24 +614,114 @@ window.addEventListener('load', function() {
     var fullscreenBtn = document.getElementById('fullscreen-btn');
     var isFullscreen = false;
 
+    // Créer les éléments du plein écran
+    var fsContent = document.createElement('div');
+    fsContent.id = 'fs-extra';
+    fsContent.style.display = 'none';
+    fsContent.innerHTML = '<div class="fullscreen-amb">' +
+        '<div class="fullscreen-amb-title">♪ Ambiance</div>' +
+        '<div class="fullscreen-amb-controls">' +
+        '<select id="fs-amb-select"><option value="audio/ambiance/Musique Ambiance - Partie 1.mp3">Partie 1</option><option value="audio/ambiance/Musique Ambiance - Partie 2.mp3">Partie 2</option><option value="audio/ambiance/Musique Ambiance - Partie 3.mp3">Partie 3</option></select>' +
+        '<button id="fs-amb-play" class="amb-btn">▶</button>' +
+        '<input type="range" id="fs-amb-vol" min="0" max="100" value="60" style="width:80px;">' +
+        '<span id="fs-amb-time" style="color:#888;font-size:0.8rem;">0:00</span>' +
+        '</div>' +
+        '<input type="range" class="fullscreen-amb-seek" id="fs-amb-seek" min="0" max="100" value="0">' +
+        '</div>' +
+        '<div class="fullscreen-programme" id="fs-programme"></div>';
+    player.appendChild(fsContent);
+
+    // Remplir le programme
+    var fsProg = document.getElementById('fs-programme');
+    var trackNames = {
+        '01':'Brindisi','02':'Cara sposa','03':'Là ci darem la mano','04':'La donna è mobile',
+        '05':'Duo des fleurs','06':'Largo al factotum','07':'Lacrimosa','08':"Lascia ch'io pianga",
+        '09':'Au fond du temple saint','10':'Je veux vivre','11':'Votre toast','12':'Va pensiero',
+        '13':'Duo de la mouche','14':'La Barcarolle','15':'O mio babbino caro','16':'O sole mio'
+    };
+    var nums = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI'];
+    for (var i = 0; i < trackOrder.length; i++) {
+        var tid = trackOrder[i];
+        var div = document.createElement('div');
+        div.className = 'fs-track';
+        div.setAttribute('data-fst', tid);
+        div.innerHTML = '<span class="fs-num">' + nums[i] + '</span><span>' + (trackNames[tid] || tid) + '</span>';
+        div.onclick = (function(t) {
+            return function() {
+                var btn = document.querySelector('.play-btn[data-track="' + t + '"]');
+                if (btn) btn.click();
+            };
+        })(tid);
+        fsProg.appendChild(div);
+    }
+
+    // Lier les contrôles ambiance du plein écran
+    var fsAmbPlay = document.getElementById('fs-amb-play');
+    var fsAmbSelect = document.getElementById('fs-amb-select');
+    var fsAmbVol = document.getElementById('fs-amb-vol');
+    var fsAmbSeek = document.getElementById('fs-amb-seek');
+    var fsAmbTime = document.getElementById('fs-amb-time');
+
+    if (fsAmbPlay) fsAmbPlay.onclick = function() {
+        if (ambPlaying) { fadeOutAmbiance(); } else { startAmbiance(); }
+    };
+    if (fsAmbSelect) fsAmbSelect.onchange = function() {
+        ambSelect.value = fsAmbSelect.value;
+        if (ambPlaying) { ambAudio.src = fsAmbSelect.value; ambAudio.play(); }
+    };
+    if (fsAmbVol) fsAmbVol.oninput = function() {
+        ambTargetVolume = fsAmbVol.value / 100;
+        ambVolume.value = fsAmbVol.value;
+        if (ambPlaying && !ambFadeInterval) ambAudio.volume = ambTargetVolume;
+    };
+    if (fsAmbSeek) fsAmbSeek.oninput = function() {
+        if (ambAudio.duration && !isNaN(ambAudio.duration)) {
+            ambAudio.currentTime = (fsAmbSeek.value / 100) * ambAudio.duration;
+        }
+    };
+
+    // Mettre à jour le seek et le temps de l'ambiance en plein écran
+    if (ambAudio) {
+        var origTimeUpdate = ambAudio.ontimeupdate;
+        ambAudio.ontimeupdate = function() {
+            if (origTimeUpdate) origTimeUpdate();
+            if (!ambAudio.duration || isNaN(ambAudio.duration)) return;
+            var m = Math.floor(ambAudio.currentTime / 60);
+            var s = Math.floor(ambAudio.currentTime % 60);
+            if (fsAmbTime) fsAmbTime.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+            if (fsAmbSeek && document.activeElement !== fsAmbSeek) {
+                fsAmbSeek.value = (ambAudio.currentTime / ambAudio.duration) * 100;
+            }
+            // Mettre à jour le bouton play
+            if (fsAmbPlay) {
+                fsAmbPlay.textContent = ambPlaying ? '⏸' : '▶';
+                fsAmbPlay.classList.toggle('playing', ambPlaying);
+            }
+        };
+    }
+
+    // Mettre à jour le programme actif en plein écran
+    function updateFsProgramme() {
+        var tracks = document.querySelectorAll('.fs-track');
+        for (var j = 0; j < tracks.length; j++) {
+            tracks[j].classList.toggle('active', tracks[j].getAttribute('data-fst') === currentTrack);
+        }
+    }
+
     if (fullscreenBtn) fullscreenBtn.onclick = function() {
         isFullscreen = !isFullscreen;
         player.classList.toggle('fullscreen-mode', isFullscreen);
+        fsContent.style.display = isFullscreen ? 'block' : 'none';
 
         if (isFullscreen) {
-            // Essayer le vrai plein écran du navigateur
-            if (player.requestFullscreen) {
-                player.requestFullscreen();
-            } else if (player.webkitRequestFullscreen) {
-                player.webkitRequestFullscreen();
-            }
+            updateFsProgramme();
+            // Plein écran natif du navigateur
+            var elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
         } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            }
-            player.classList.remove('fullscreen-mode');
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
         }
     };
 
