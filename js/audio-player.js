@@ -44,13 +44,13 @@ window.addEventListener('load', function() {
         '05': 'audio/05 - Duo des fleurs - Lakmé - Delibes - Mastering.mp3',
         '06': 'audio/06 - Largo al factotum - Le barbier de Séville - Rossini - Mastering.mp3',
         '07': 'audio/07 - Lacrimosa - Requiem - Mozart - Mastering.mp3',
-        '08': "audio/08 - Lascia ch'io pianga - Rinaldo - Händel - Mastering.wav",
+        '08': "audio/08 - Lascia chio pianga - Rinaldo - Handel - Mastering.mp3",
         '09': 'audio/09 - Au fond du temple saint - Les pêcheurs de perles - Bizet - Mastering.mp3',
         '10': 'audio/10 - Je veux vivre - Roméo et Juliette - Gounod - Mastering.mp3',
         '11': 'audio/11 - Votre toast (Toreador) - Carmen - Bizet - Mastering.mp3',
         '12': 'audio/12 - Va pensiero - Nabucco - Verdi - Mastering.mp3',
         '13': 'audio/13 - Duo de la mouche - Orphée et Euridice - Offenbach - Mastering.mp3',
-        '14': "audio/14 - La barcarole - Les contes d'Hoffmann - Offenbach - Mastering.wav",
+        '14': "audio/14 - La barcarole - Les contes dHoffmann - Offenbach - Mastering.mp3",
         '15': 'audio/15 - O mio babbino caro - Gianni Schicchi - Puccini - Mastering.mp3',
         '16': 'audio/16 - O sole mio - Di Capua - Mastering-new.mp3'
     };
