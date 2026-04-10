@@ -79,6 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
         enterBtn.addEventListener('click', () => {
             sessionStorage.setItem('introSeen', 'true');
 
+            // Passer en plein écran
+            var elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+
             // 1. Le bouton disparaît d'abord
             enterBtn.style.transition = 'opacity 0.5s ease';
             enterBtn.style.opacity = '0';
