@@ -563,42 +563,14 @@ window.addEventListener('load', function() {
     }
 
     // Quand N'IMPORTE QUEL audio du concert commence à jouer → couper l'ambiance
-    // Fondu croisé : ambiance sort en fondu, puis morceau entre en fondu
-    function crossfadeToTrack(audio) {
-        // D'abord, mettre le morceau en pause et volume 0
-        audio.volume = 0;
-
-        if (ambPlaying) {
-            // Fondu de sortie rapide de l'ambiance (1 seconde)
-            clearInterval(ambFadeInterval);
-            ambFadeInterval = setInterval(function() {
-                if (ambAudio.volume > 0.05) {
-                    ambAudio.volume = Math.max(0, ambAudio.volume - 0.05);
-                } else {
-                    ambAudio.volume = 0;
-                    ambAudio.pause();
-                    ambPlaying = false;
-                    if (ambPlayBtn) {
-                        ambPlayBtn.textContent = '▶';
-                        ambPlayBtn.classList.remove('playing');
-                    }
-                    clearInterval(ambFadeInterval);
-                    ambFadeInterval = null;
-                    // Maintenant lancer le fondu d'entrée du morceau
-                    fadeInConcert(audio);
-                }
-            }, 50); // 20 steps * 50ms = 1 seconde
-        } else {
-            // Pas d'ambiance — fondu d'entrée direct
-            fadeInConcert(audio);
-        }
-    }
-
+    // Quand un morceau du concert démarre → COUPER l'ambiance IMMÉDIATEMENT
     for (var tid in audioElements) {
         (function(audio) {
             audio.addEventListener('play', function() {
-                // Fondu croisé : ambiance sort, morceau entre
-                crossfadeToTrack(audio);
+                // COUPER L'AMBIANCE NET — priorité absolue au concert
+                killAmbiance();
+                // Fondu d'entrée du morceau
+                fadeInConcert(audio);
                 // Initialiser le compteur de set si nécessaire
                 if (setSize > 0 && setRemaining <= 0) {
                     setRemaining = setSize;
