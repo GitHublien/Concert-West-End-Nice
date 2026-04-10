@@ -733,5 +733,43 @@ window.addEventListener('load', function() {
         }
     });
 
+    // ============================================
+    // EMPÊCHER LA MISE EN VEILLE (Wake Lock)
+    // ============================================
+    var wakeLock = null;
+
+    async function requestWakeLock() {
+        try {
+            if ('wakeLock' in navigator) {
+                wakeLock = await navigator.wakeLock.request('screen');
+                console.log('Wake Lock activé — écran ne se mettra pas en veille');
+                wakeLock.addEventListener('release', function() {
+                    console.log('Wake Lock relâché');
+                });
+            }
+        } catch (err) {
+            console.log('Wake Lock non disponible:', err);
+        }
+    }
+
+    // Activer le wake lock dès qu'un audio joue
+    for (var wid in audioElements) {
+        audioElements[wid].addEventListener('play', function() {
+            requestWakeLock();
+        });
+    }
+    if (ambAudio) {
+        ambAudio.addEventListener('play', function() {
+            requestWakeLock();
+        });
+    }
+
+    // Réactiver le wake lock quand on revient sur la page
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible' && (isPlaying || ambPlaying)) {
+            requestWakeLock();
+        }
+    });
+
     console.log('Lecteur audio v3 chargé — ' + Object.keys(audioElements).length + ' morceaux + ambiance');
 });
