@@ -451,8 +451,14 @@ window.addEventListener('load', function() {
         ambToggle.classList.toggle('active', !visible);
     };
 
-    // Play/Pause ambiance
+    // Play/Pause ambiance — BLOQUÉ si un morceau du concert joue
     if (ambPlayBtn) ambPlayBtn.onclick = function() {
+        if (isPlaying) {
+            // Un morceau du concert est en cours — bloquer
+            ambPlayBtn.textContent = '⛔';
+            setTimeout(function() { ambPlayBtn.textContent = '▶'; }, 1500);
+            return;
+        }
         if (ambPlaying) {
             fadeOutAmbiance();
         } else {
@@ -635,6 +641,11 @@ window.addEventListener('load', function() {
     var fsAmbTime = document.getElementById('fs-amb-time');
 
     if (fsAmbPlay) fsAmbPlay.onclick = function() {
+        if (isPlaying) {
+            fsAmbPlay.textContent = '⛔';
+            setTimeout(function() { fsAmbPlay.textContent = '▶'; }, 1500);
+            return;
+        }
         if (ambPlaying) { fadeOutAmbiance(); } else { startAmbiance(); }
     };
     if (fsAmbSelect) fsAmbSelect.onchange = function() {
