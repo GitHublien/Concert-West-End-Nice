@@ -1489,7 +1489,21 @@ body {
     }
 }
 
+@media (max-width: 900px) {
+    /* Objets du parallaxe beaucoup plus gros sur mobile/tablette */
+    .p-obj img {
+        transform: scale(2.5);
+        transform-origin: center center;
+    }
+}
+
 @media (max-width: 600px) {
+    /* Objets encore plus gros sur petit mobile */
+    .p-obj img {
+        transform: scale(3.5);
+        transform-origin: center center;
+    }
+
     /* Parallaxe intro responsive */
     .parallax-title {
         padding: 0 15px;
