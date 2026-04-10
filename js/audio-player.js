@@ -38,19 +38,19 @@ window.addEventListener('load', function() {
     // Liste des fichiers — WAV pour compatibilité maximale
     var files = {
         '01': 'audio/01 - Brindisi (Libiamo) - La Traviata - Verdi - Mastering.mp3',
-        '02': 'audio/02 - Cara sposa - Rinaldo - Händel - Mastering.mp3',
+        '02': 'audio/02 - Cara sposa - Rinaldo - Handel - Mastering.mp3',
         '03': 'audio/03 - La ci darem la mano - Don Giovanni - Mozart - Mastering.mp3',
-        '04': 'audio/04 - La donna è mobile - Rigoletto - Verdi - Mastering.mp3',
-        '05': 'audio/05 - Duo des fleurs - Lakmé - Delibes - Mastering.mp3',
-        '06': 'audio/06 - Largo al factotum - Le barbier de Séville - Rossini - Mastering.mp3',
+        '04': 'audio/04 - La donna e mobile - Rigoletto - Verdi - Mastering.mp3',
+        '05': 'audio/05 - Duo des fleurs - Lakme - Delibes - Mastering.mp3',
+        '06': 'audio/06 - Largo al factotum - Le barbier de Seville - Rossini - Mastering.mp3',
         '07': 'audio/07 - Lacrimosa - Requiem - Mozart - Mastering.mp3',
-        '08': "audio/08 - Lascia chio pianga - Rinaldo - Handel - Mastering.mp3",
-        '09': 'audio/09 - Au fond du temple saint - Les pêcheurs de perles - Bizet - Mastering.mp3',
-        '10': 'audio/10 - Je veux vivre - Roméo et Juliette - Gounod - Mastering.mp3',
+        '08': 'audio/08 - Lascia chio pianga - Rinaldo - Handel - Mastering.mp3',
+        '09': 'audio/09 - Au fond du temple saint - Les pecheurs de perles - Bizet - Mastering.mp3',
+        '10': 'audio/10 - Je veux vivre - Romeo et Juliette - Gounod - Mastering.mp3',
         '11': 'audio/11 - Votre toast (Toreador) - Carmen - Bizet - Mastering.mp3',
         '12': 'audio/12 - Va pensiero - Nabucco - Verdi - Mastering.mp3',
-        '13': 'audio/13 - Duo de la mouche - Orphée et Euridice - Offenbach - Mastering.mp3',
-        '14': "audio/14 - La barcarole - Les contes dHoffmann - Offenbach - Mastering.mp3",
+        '13': 'audio/13 - Duo de la mouche - Orphee et Euridice - Offenbach - Mastering.mp3',
+        '14': 'audio/14 - La barcarole - Les contes dHoffmann - Offenbach - Mastering.mp3',
         '15': 'audio/15 - O mio babbino caro - Gianni Schicchi - Puccini - Mastering.mp3',
         '16': 'audio/16 - O sole mio - Di Capua - Mastering-new.mp3'
     };
