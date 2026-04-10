@@ -433,7 +433,7 @@
     </footer>
 
     <!-- LECTEUR AUDIO GLOBAL -->
-    <div id="audio-player" class="audio-player hidden">
+    <div id="audio-player" class="audio-player">
         <div class="player-info">
             <span class="player-title"></span>
             <span class="player-composer"></span>
@@ -468,10 +468,44 @@
             <button class="player-close" aria-label="Fermer">&times;</button>
         </div>
         <audio id="audio-element"></audio>
+
+        <!-- Contrôles de set -->
+        <div class="set-controls">
+            <div class="set-label">Set :</div>
+            <button class="set-btn" id="set-minus">−</button>
+            <span class="set-count" id="set-count">∞</span>
+            <button class="set-btn" id="set-plus">+</button>
+            <span class="set-remaining" id="set-remaining"></span>
+            <label class="set-auto-label"><input type="checkbox" id="auto-next" checked> Auto</label>
+            <span class="set-delay-label">Délai :</span>
+            <button class="set-btn" id="delay-minus">−</button>
+            <span class="set-count" id="delay-count">10</span>
+            <button class="set-btn" id="delay-plus">+</button>
+            <span class="set-delay-label">s</span>
+        </div>
+    </div>
+
+    <!-- LECTEUR AMBIANCE — séparé -->
+    <div id="ambiance-player">
+        <button id="amb-toggle" title="Musique d'ambiance">
+            <span class="amb-icon">♪</span>
+            <span class="amb-text">Ambiance</span>
+        </button>
+        <div class="amb-controls" id="amb-controls" style="display:none;">
+            <select id="amb-select">
+                <option value="audio/ambiance/Musique Ambiance - Partie 1.mp3">Partie 1</option>
+                <option value="audio/ambiance/Musique Ambiance - Partie 2.mp3">Partie 2</option>
+                <option value="audio/ambiance/Musique Ambiance - Partie 3.mp3">Partie 3</option>
+            </select>
+            <button id="amb-play" class="amb-btn">▶</button>
+            <input type="range" id="amb-volume" min="0" max="100" value="60" title="Volume ambiance">
+            <span id="amb-time">0:00</span>
+        </div>
+        <audio id="amb-audio" preload="none"></audio>
     </div>
 
     <script src="js/main.js?v=37"></script>
-    <script src="js/audio-player.js?v=6"></script>
+    <script src="js/audio-player.js?v=11"></script>
     <!-- ÉDITEUR TEMPORAIRE — à supprimer quand le placement est fini -->
     <script src="js/editor.js?v=41"></script>
 </body>

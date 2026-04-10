@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Programme — Dîner & Opéra — Hôtel West End</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:wght@400;600;700&display=swap');
+
+        @page { size: A4; margin: 0; }
+
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: #0a0a0a;
+            color: #f5f0e8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            padding: 40px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border: 2px solid rgba(201, 168, 76, 0.3);
+            margin: 20px;
+            pointer-events: none;
+        }
+
+        .page::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            margin: 25px;
+            pointer-events: none;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-top: 20px;
+        }
+
+        .hotel-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            color: #c9a84c;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            font-weight: 300;
+            margin-bottom: 5px;
+        }
+
+        .presents {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+            letter-spacing: 0.2em;
+            margin-bottom: 15px;
+        }
+
+        .title-main {
+            font-family: 'Great Vibes', cursive;
+            font-size: 58px;
+            color: #f5f0e8;
+            margin: 10px 0;
+            line-height: 1;
+        }
+
+        .title-amp {
+            color: #c9a84c;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .divider-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+        }
+
+        .divider-diamond {
+            color: #c9a84c;
+            font-size: 10px;
+        }
+
+        .date {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: #c9a84c;
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .venue {
+            font-size: 13px;
+            color: #888;
+            letter-spacing: 0.1em;
+        }
+
+        .artists {
+            text-align: center;
+            margin: 20px 0 15px;
+            padding: 15px 0;
+            border-top: 1px solid rgba(201, 168, 76, 0.15);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+        }
+
+        .artists-title {
+            font-size: 11px;
+            color: #c9a84c;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .artists-names {
+            font-size: 15px;
+            color: #f5f0e8;
+            font-weight: 400;
+            line-height: 1.8;
+        }
+
+        .artists-names span {
+            color: #c9a84c;
+            font-size: 11px;
+            font-style: italic;
+        }
+
+        .programme-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: #f5f0e8;
+            letter-spacing: 0.1em;
+            margin: 20px 0 15px;
+        }
+
+        .programme-list {
+            margin: 0 10px;
+        }
+
+        .piece {
+            display: flex;
+            align-items: baseline;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.06);
+        }
+
+        .piece:last-child {
+            border-bottom: none;
+        }
+
+        .piece-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 13px;
+            color: #c9a84c;
+            min-width: 35px;
+            text-align: right;
+            margin-right: 15px;
+            opacity: 0.7;
+        }
+
+        .piece-info {
+            flex: 1;
+        }
+
+        .piece-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            color: #f5f0e8;
+            font-weight: 600;
+        }
+
+        .piece-aka {
+            font-weight: 400;
+            font-style: italic;
+            color: #c9a84c;
+            font-size: 12px;
+        }
+
+        .piece-opera {
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+            margin-top: 1px;
+        }
+
+        .piece-composer {
+            color: #aaa;
+            font-style: normal;
+        }
+
+        .piece-singers {
+            font-size: 11px;
+            color: #c9a84c;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .piece.finale {
+            margin-top: 10px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(201, 168, 76, 0.2);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(201, 168, 76, 0.15);
+        }
+
+        .footer-concept {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .footer-concept strong {
+            color: #c9a84c;
+        }
+
+        .footer-hotel {
+            font-family: 'Playfair Display', serif;
+            font-size: 10px;
+            color: #c9a84c;
+            letter-spacing: 0.2em;
+            margin-top: 5px;
+            opacity: 0.6;
+        }
+
+        .ornament {
+            color: #c9a84c;
+            opacity: 0.4;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <div class="hotel-name">Hôtel West End</div>
+            <div class="presents">a le plaisir de vous convier à</div>
+            <div class="title-main">Dîner <span class="title-amp">&</span> Opéra</div>
+            <div class="divider">
+                <span class="divider-line"></span>
+                <span class="divider-diamond">&#9830;</span>
+                <span class="divider-line"></span>
+            </div>
+            <div class="date">Vendredi 10 Avril 2026</div>
+            <div class="venue">Restaurant Le Siècle — 31 Promenade des Anglais, Nice</div>
+        </div>
+
+        <div class="artists">
+            <div class="artists-title">Les Artistes</div>
+            <div class="artists-names">
+                Vanessa Fouillet <span>Soprano</span><br>
+                Jérémy Bertini <span>Contre-ténor</span><br>
+                Mickaël Guedj <span>Baryton</span><br>
+                Gilles San Juan <span>Ténor</span>
+            </div>
+        </div>
+
+        <div class="divider">
+            <span class="divider-line"></span>
+            <span class="divider-diamond">&#9830;</span>
+            <span class="divider-line"></span>
+        </div>
+
+        <div class="programme-title">Le Programme</div>
+
+        <div class="programme-list">
+            <div class="piece">
+                <div class="piece-num">I</div>
+                <div class="piece-info">
+                    <div class="piece-title">Brindisi <span class="piece-aka">(Libiamo ne' lieti calici)</span></div>
+                    <div class="piece-opera">La Traviata — <span class="piece-composer">Giuseppe Verdi</span></div>
+                    <div class="piece-singers">Gilles & Vanessa</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">II</div>
+                <div class="piece-info">
+                    <div class="piece-title">Cara sposa</div>
+                    <div class="piece-opera">Rinaldo — <span class="piece-composer">Georg Friedrich Händel</span></div>
+                    <div class="piece-singers">Jérémy</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">III</div>
+                <div class="piece-info">
+                    <div class="piece-title">Là ci darem la mano</div>
+                    <div class="piece-opera">Don Giovanni — <span class="piece-composer">Wolfgang Amadeus Mozart</span></div>
+                    <div class="piece-singers">Vanessa & Mickaël</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">IV</div>
+                <div class="piece-info">
+                    <div class="piece-title">La donna è mobile</div>
+                    <div class="piece-opera">Rigoletto — <span class="piece-composer">Giuseppe Verdi</span></div>
+                    <div class="piece-singers">Gilles</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">V</div>
+                <div class="piece-info">
+                    <div class="piece-title">Duo des fleurs</div>
+                    <div class="piece-opera">Lakmé — <span class="piece-composer">Léo Delibes</span></div>
+                    <div class="piece-singers">Vanessa & Jérémy</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">VI</div>
+                <div class="piece-info">
+                    <div class="piece-title">Largo al factotum</div>
+                    <div class="piece-opera">Le Barbier de Séville — <span class="piece-composer">Gioachino Rossini</span></div>
+                    <div class="piece-singers">Mickaël</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">VII</div>
+                <div class="piece-info">
+                    <div class="piece-title">Lacrimosa</div>
+                    <div class="piece-opera">Requiem — <span class="piece-composer">Wolfgang Amadeus Mozart</span></div>
+                    <div class="piece-singers">Vanessa, Jérémy & Gilles</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">VIII</div>
+                <div class="piece-info">
+                    <div class="piece-title">Lascia ch'io pianga</div>
+                    <div class="piece-opera">Rinaldo — <span class="piece-composer">Georg Friedrich Händel</span></div>
+                    <div class="piece-singers">Jérémy</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">IX</div>
+                <div class="piece-info">
+                    <div class="piece-title">Au fond du temple saint</div>
+                    <div class="piece-opera">Les Pêcheurs de perles — <span class="piece-composer">Georges Bizet</span></div>
+                    <div class="piece-singers">Gilles & Mickaël</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">X</div>
+                <div class="piece-info">
+                    <div class="piece-title">Je veux vivre</div>
+                    <div class="piece-opera">Roméo et Juliette — <span class="piece-composer">Charles Gounod</span></div>
+                    <div class="piece-singers">Vanessa</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">XI</div>
+                <div class="piece-info">
+                    <div class="piece-title">Votre toast <span class="piece-aka">(Air du Toréador)</span></div>
+                    <div class="piece-opera">Carmen — <span class="piece-composer">Georges Bizet</span></div>
+                    <div class="piece-singers">Mickaël</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">XII</div>
+                <div class="piece-info">
+                    <div class="piece-title">Va, pensiero</div>
+                    <div class="piece-opera">Nabucco — <span class="piece-composer">Giuseppe Verdi</span></div>
+                    <div class="piece-singers">Gilles</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">XIII</div>
+                <div class="piece-info">
+                    <div class="piece-title">Duo de la mouche</div>
+                    <div class="piece-opera">Orphée aux Enfers — <span class="piece-composer">Jacques Offenbach</span></div>
+                    <div class="piece-singers">Mickaël & Vanessa</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">XIV</div>
+                <div class="piece-info">
+                    <div class="piece-title">La Barcarolle</div>
+                    <div class="piece-opera">Les Contes d'Hoffmann — <span class="piece-composer">Jacques Offenbach</span></div>
+                    <div class="piece-singers">Jérémy & Gilles</div>
+                </div>
+            </div>
+            <div class="piece">
+                <div class="piece-num">XV</div>
+                <div class="piece-info">
+                    <div class="piece-title">O mio babbino caro</div>
+                    <div class="piece-opera">Gianni Schicchi — <span class="piece-composer">Giacomo Puccini</span></div>
+                    <div class="piece-singers">Vanessa</div>
+                </div>
+            </div>
+            <div class="piece finale">
+                <div class="piece-num">XVI</div>
+                <div class="piece-info">
+                    <div class="piece-title">O sole mio</div>
+                    <div class="piece-opera"><span class="piece-composer">Eduardo di Capua</span></div>
+                    <div class="piece-singers">Vanessa, Jérémy, Mickaël & Gilles</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="ornament">&#10047;</div>
+            <div class="footer-concept">Un concept créé par <strong>Laurie Jauffret</strong></div>
+            <div class="footer-hotel">Hôtel West End &mdash; Nice, Côte d'Azur</div>
+            <div class="ornament">&#10047;</div>
+        </div>
+    </div>
+</body>
+</html>

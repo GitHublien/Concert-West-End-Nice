@@ -287,5 +287,323 @@ window.addEventListener('load', function() {
         for (var j = 0; j < all.length; j++) all[j].classList.remove('playing');
     };
 
-    console.log('Lecteur audio v2 chargé — ' + Object.keys(audioElements).length + ' morceaux préchargés');
+    // ============================================
+    // SYSTÈME DE SET — enchaînement automatique
+    // ============================================
+    var setSize = 0; // 0 = infini
+    var setRemaining = 0;
+    var autoNext = true;
+    var trackOrder = Object.keys(files).sort();
+    var ambDelay = 10; // secondes avant que l'ambiance reprenne
+    var concertVolume = 1;
+    var concertFadeInterval = null;
+
+    var setCountEl = document.getElementById('set-count');
+    var setRemainingEl = document.getElementById('set-remaining');
+    var autoNextCb = document.getElementById('auto-next');
+
+    // Boutons + et -
+    var setPlus = document.getElementById('set-plus');
+    var setMinus = document.getElementById('set-minus');
+
+    if (setPlus) setPlus.onclick = function() {
+        setSize++;
+        setRemaining = setSize;
+        setCountEl.textContent = setSize;
+        setRemainingEl.textContent = '(reste ' + setRemaining + ')';
+    };
+
+    if (setMinus) setMinus.onclick = function() {
+        if (setSize > 0) setSize--;
+        if (setSize === 0) {
+            setCountEl.textContent = '∞';
+            setRemainingEl.textContent = '';
+        } else {
+            setRemaining = setSize;
+            setCountEl.textContent = setSize;
+            setRemainingEl.textContent = '(reste ' + setRemaining + ')';
+        }
+    };
+
+    if (autoNextCb) autoNextCb.onchange = function() {
+        autoNext = autoNextCb.checked;
+    };
+
+    // Boutons délai ambiance
+    var delayPlus = document.getElementById('delay-plus');
+    var delayMinus = document.getElementById('delay-minus');
+    var delayCount = document.getElementById('delay-count');
+    if (delayPlus) delayPlus.onclick = function() {
+        ambDelay += 5;
+        delayCount.textContent = ambDelay;
+    };
+    if (delayMinus) delayMinus.onclick = function() {
+        if (ambDelay > 0) ambDelay -= 5;
+        if (ambDelay < 0) ambDelay = 0;
+        delayCount.textContent = ambDelay;
+    };
+
+    // Fondu d'entrée sur un morceau du concert
+    function fadeInConcert(audio) {
+        clearInterval(concertFadeInterval);
+        audio.volume = 0;
+        concertFadeInterval = setInterval(function() {
+            if (audio.volume < concertVolume - 0.05) {
+                audio.volume = Math.min(concertVolume, audio.volume + 0.05);
+            } else {
+                audio.volume = concertVolume;
+                clearInterval(concertFadeInterval);
+                concertFadeInterval = null;
+            }
+        }, 50); // ~1 seconde de fondu
+    }
+
+    // Fondu de sortie sur un morceau du concert (avant la fin)
+    function setupFadeOutBeforeEnd(audio) {
+        audio.addEventListener('timeupdate', function() {
+            if (!audio.duration || isNaN(audio.duration)) return;
+            var remaining = audio.duration - audio.currentTime;
+            // Fondu de sortie dans les 3 dernières secondes
+            if (remaining < 3 && remaining > 0 && !audio.paused) {
+                audio.volume = Math.max(0, (remaining / 3) * concertVolume);
+            }
+        });
+    }
+
+    // Appliquer le fondu de sortie à tous les audios
+    for (var fid in audioElements) {
+        setupFadeOutBeforeEnd(audioElements[fid]);
+    }
+
+    // Remplacer le onended de chaque audio pour gérer le set
+    function setupSetEnded(audio, trackId) {
+        audio.onended = function() {
+            isPlaying = false;
+            playPauseBtn.querySelector('.icon-play').style.display = 'block';
+            playPauseBtn.querySelector('.icon-pause').style.display = 'none';
+            player.classList.remove('playing');
+            var all = document.querySelectorAll('.play-btn.playing');
+            for (var j = 0; j < all.length; j++) all[j].classList.remove('playing');
+
+            // Décrémenter le compteur de set
+            if (setSize > 0) {
+                setRemaining--;
+                if (setRemaining <= 0) {
+                    // Set terminé — relancer l'ambiance après le délai
+                    setRemainingEl.textContent = '(set terminé — ambiance dans ' + ambDelay + 's)';
+                    setTimeout(function() {
+                        startAmbiance();
+                        setRemainingEl.textContent = '(ambiance en cours)';
+                    }, ambDelay * 1000);
+                    return;
+                }
+                setRemainingEl.textContent = '(reste ' + setRemaining + ')';
+            }
+
+            // Auto-enchaînement si activé
+            if (autoNext) {
+                var idx = trackOrder.indexOf(trackId);
+                var nextIdx = idx + 1;
+                if (nextIdx < trackOrder.length) {
+                    var nextTrack = trackOrder[nextIdx];
+                    var btn = document.querySelector('.play-btn[data-track="' + nextTrack + '"]');
+                    if (btn) {
+                        setTimeout(function() { btn.click(); }, 500);
+                    }
+                } else {
+                    // Fin du programme — relancer l'ambiance après le délai
+                    setTimeout(function() { startAmbiance(); }, ambDelay * 1000);
+                }
+            }
+        };
+    }
+
+    // Réattacher les événements ended avec la gestion de set
+    for (var id in audioElements) {
+        setupSetEnded(audioElements[id], id);
+    }
+
+    // Quand on lance un morceau, réinitialiser le set si nécessaire
+    var originalBtnClick = {};
+    // (le set se lance au premier morceau cliqué)
+
+    // ============================================
+    // LECTEUR AMBIANCE — avec fondu enchaîné
+    // ============================================
+    var ambAudio = document.getElementById('amb-audio');
+    var ambToggle = document.getElementById('amb-toggle');
+    var ambControls = document.getElementById('amb-controls');
+    var ambPlayBtn = document.getElementById('amb-play');
+    var ambSelect = document.getElementById('amb-select');
+    var ambVolume = document.getElementById('amb-volume');
+    var ambTime = document.getElementById('amb-time');
+    var ambPlaying = false;
+    var ambTargetVolume = 0.6;
+    var ambFadeInterval = null;
+
+    // Toggle le panneau
+    if (ambToggle) ambToggle.onclick = function() {
+        var visible = ambControls.style.display !== 'none';
+        ambControls.style.display = visible ? 'none' : 'flex';
+        ambToggle.classList.toggle('active', !visible);
+    };
+
+    // Play/Pause ambiance
+    if (ambPlayBtn) ambPlayBtn.onclick = function() {
+        if (ambPlaying) {
+            fadeOutAmbiance();
+        } else {
+            startAmbiance();
+        }
+    };
+
+    // Volume
+    if (ambVolume) ambVolume.oninput = function() {
+        ambTargetVolume = ambVolume.value / 100;
+        if (ambPlaying && !ambFadeInterval) {
+            ambAudio.volume = ambTargetVolume;
+        }
+    };
+
+    // Sélection de partie
+    if (ambSelect) ambSelect.onchange = function() {
+        if (ambPlaying) {
+            ambAudio.src = ambSelect.value;
+            ambAudio.play();
+        }
+    };
+
+    // Temps
+    if (ambAudio) ambAudio.ontimeupdate = function() {
+        if (!ambAudio.duration || isNaN(ambAudio.duration)) return;
+        var m = Math.floor(ambAudio.currentTime / 60);
+        var s = Math.floor(ambAudio.currentTime % 60);
+        ambTime.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+    };
+
+    // Quand une partie se termine, passer à la suivante
+    if (ambAudio) ambAudio.onended = function() {
+        var options = ambSelect.options;
+        var idx = ambSelect.selectedIndex;
+        if (idx < options.length - 1) {
+            ambSelect.selectedIndex = idx + 1;
+            ambAudio.src = ambSelect.value;
+            ambAudio.play();
+        } else {
+            // Revenir à la partie 1
+            ambSelect.selectedIndex = 0;
+            ambPlaying = false;
+            ambPlayBtn.textContent = '▶';
+            ambPlayBtn.classList.remove('playing');
+        }
+    };
+
+    // Fondu d'entrée de l'ambiance
+    function startAmbiance() {
+        if (!ambAudio.src || ambAudio.src === '') {
+            ambAudio.src = ambSelect.value;
+        }
+        ambAudio.volume = 0;
+        ambAudio.play();
+        ambPlaying = true;
+        ambPlayBtn.textContent = '⏸';
+        ambPlayBtn.classList.add('playing');
+
+        // Fondu d'entrée sur 3 secondes
+        clearInterval(ambFadeInterval);
+        ambFadeInterval = setInterval(function() {
+            if (ambAudio.volume < ambTargetVolume - 0.02) {
+                ambAudio.volume = Math.min(ambTargetVolume, ambAudio.volume + 0.02);
+            } else {
+                ambAudio.volume = ambTargetVolume;
+                clearInterval(ambFadeInterval);
+                ambFadeInterval = null;
+            }
+        }, 60); // 50 steps * 60ms = 3 secondes
+    }
+
+    // Fondu de sortie de l'ambiance
+    function fadeOutAmbiance(callback) {
+        if (!ambPlaying) { if (callback) callback(); return; }
+        clearInterval(ambFadeInterval);
+        ambFadeInterval = setInterval(function() {
+            if (ambAudio.volume > 0.02) {
+                ambAudio.volume = Math.max(0, ambAudio.volume - 0.02);
+            } else {
+                ambAudio.volume = 0;
+                ambAudio.pause();
+                ambPlaying = false;
+                ambPlayBtn.textContent = '▶';
+                ambPlayBtn.classList.remove('playing');
+                clearInterval(ambFadeInterval);
+                ambFadeInterval = null;
+                if (callback) callback();
+            }
+        }, 60);
+    }
+
+    // Quand un morceau du concert démarre → couper l'ambiance en fondu
+    var origPlayFn = null;
+    // Couper l'ambiance IMMÉDIATEMENT (pas de fondu)
+    function killAmbiance() {
+        clearInterval(ambFadeInterval);
+        ambFadeInterval = null;
+        if (ambAudio) {
+            ambAudio.pause();
+            ambAudio.volume = 0;
+        }
+        ambPlaying = false;
+        if (ambPlayBtn) {
+            ambPlayBtn.textContent = '▶';
+            ambPlayBtn.classList.remove('playing');
+        }
+    }
+
+    // Quand N'IMPORTE QUEL audio du concert commence à jouer → couper l'ambiance
+    // Fondu croisé : ambiance sort en fondu, puis morceau entre en fondu
+    function crossfadeToTrack(audio) {
+        // D'abord, mettre le morceau en pause et volume 0
+        audio.volume = 0;
+
+        if (ambPlaying) {
+            // Fondu de sortie rapide de l'ambiance (1 seconde)
+            clearInterval(ambFadeInterval);
+            ambFadeInterval = setInterval(function() {
+                if (ambAudio.volume > 0.05) {
+                    ambAudio.volume = Math.max(0, ambAudio.volume - 0.05);
+                } else {
+                    ambAudio.volume = 0;
+                    ambAudio.pause();
+                    ambPlaying = false;
+                    if (ambPlayBtn) {
+                        ambPlayBtn.textContent = '▶';
+                        ambPlayBtn.classList.remove('playing');
+                    }
+                    clearInterval(ambFadeInterval);
+                    ambFadeInterval = null;
+                    // Maintenant lancer le fondu d'entrée du morceau
+                    fadeInConcert(audio);
+                }
+            }, 50); // 20 steps * 50ms = 1 seconde
+        } else {
+            // Pas d'ambiance — fondu d'entrée direct
+            fadeInConcert(audio);
+        }
+    }
+
+    for (var tid in audioElements) {
+        (function(audio) {
+            audio.addEventListener('play', function() {
+                // Fondu croisé : ambiance sort, morceau entre
+                crossfadeToTrack(audio);
+                // Initialiser le compteur de set si nécessaire
+                if (setSize > 0 && setRemaining <= 0) {
+                    setRemaining = setSize;
+                    if (setRemainingEl) setRemainingEl.textContent = '(reste ' + setRemaining + ')';
+                }
+            });
+        })(audioElements[tid]);
+    }
+
+    console.log('Lecteur audio v3 chargé — ' + Object.keys(audioElements).length + ' morceaux + ambiance');
 });
