@@ -174,7 +174,10 @@
     }
 
     document.addEventListener('keydown', (e) => {
-        if (e.target.tagName === 'INPUT') return;
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON') return;
+        // Ne pas activer l'éditeur si le parallaxe est fermé (on est dans le site)
+        var intro = document.getElementById('parallax-intro');
+        if (!intro || intro.classList.contains('hidden')) return;
         if (e.key === 'e' || e.key === 'E') toggleEditor();
         if (!editorActive) return;
 

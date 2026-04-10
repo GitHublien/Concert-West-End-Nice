@@ -238,6 +238,7 @@
                 <span class="divider-diamond">&#9830;</span>
                 <span class="divider-line"></span>
             </div>
+            <button id="show-player-btn" onclick="document.getElementById('audio-player').classList.remove('hidden');" style="margin-top:15px;padding:10px 25px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);color:#c9a84c;border-radius:20px;cursor:pointer;font-family:inherit;font-size:0.9rem;letter-spacing:0.1em;">🎵 Ouvrir le lecteur</button>
         </div>
 
         <div class="programme-list">
@@ -480,7 +481,9 @@
             <button class="set-btn" id="set-plus">+</button>
             <span class="set-remaining" id="set-remaining"></span>
             <label class="set-auto-label"><input type="checkbox" id="auto-next" checked> Auto</label>
-            <span class="set-delay-label">Délai :</span>
+        </div>
+        <div class="set-controls">
+            <div class="set-label">Délai :</div>
             <button class="set-btn" id="delay-minus">−</button>
             <span class="set-count" id="delay-count">10</span>
             <button class="set-btn" id="delay-plus">+</button>
