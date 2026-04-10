@@ -1214,7 +1214,7 @@ body {
     display: flex;
     align-items: center;
     gap: 20px;
-    z-index: 9000;
+    z-index: 10001;
     backdrop-filter: blur(15px);
     transform: translateY(0);
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1394,7 +1394,7 @@ body {
     position: fixed;
     bottom: 70px;
     right: 20px;
-    z-index: 8999;
+    z-index: 10001;
 }
 #amb-toggle {
     background: rgba(10,10,10,0.95);
