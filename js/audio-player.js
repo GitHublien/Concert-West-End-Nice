@@ -605,5 +605,40 @@ window.addEventListener('load', function() {
         })(audioElements[tid]);
     }
 
+    // ============================================
+    // MODE PLEIN ÉCRAN
+    // ============================================
+    var fullscreenBtn = document.getElementById('fullscreen-btn');
+    var isFullscreen = false;
+
+    if (fullscreenBtn) fullscreenBtn.onclick = function() {
+        isFullscreen = !isFullscreen;
+        player.classList.toggle('fullscreen-mode', isFullscreen);
+
+        if (isFullscreen) {
+            // Essayer le vrai plein écran du navigateur
+            if (player.requestFullscreen) {
+                player.requestFullscreen();
+            } else if (player.webkitRequestFullscreen) {
+                player.webkitRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+            player.classList.remove('fullscreen-mode');
+        }
+    };
+
+    // Quand on sort du plein écran avec Escape
+    document.addEventListener('fullscreenchange', function() {
+        if (!document.fullscreenElement) {
+            isFullscreen = false;
+            player.classList.remove('fullscreen-mode');
+        }
+    });
+
     console.log('Lecteur audio v3 chargé — ' + Object.keys(audioElements).length + ' morceaux + ambiance');
 });
