@@ -441,7 +441,7 @@ window.addEventListener('load', function() {
     var ambVolume = document.getElementById('amb-volume');
     var ambTime = document.getElementById('amb-time');
     var ambPlaying = false;
-    var ambTargetVolume = 0.6;
+    var ambTargetVolume = 0.15;
     var ambFadeInterval = null;
 
     // Toggle le panneau
@@ -623,7 +623,7 @@ window.addEventListener('load', function() {
         '<div class="fullscreen-amb-controls">' +
         '<select id="fs-amb-select"><option value="audio/ambiance/Musique Ambiance - Partie 1.mp3">Partie 1</option><option value="audio/ambiance/Musique Ambiance - Partie 2.mp3">Partie 2</option><option value="audio/ambiance/Musique Ambiance - Partie 3.mp3">Partie 3</option></select>' +
         '<button id="fs-amb-play" class="amb-btn">▶</button>' +
-        '<input type="range" id="fs-amb-vol" min="0" max="100" value="60" style="width:80px;">' +
+        '<input type="range" id="fs-amb-vol" min="0" max="100" value="15" style="width:80px;">' +
         '<span id="fs-amb-time" style="color:#888;font-size:0.8rem;">0:00</span>' +
         '</div>' +
         '<input type="range" class="fullscreen-amb-seek" id="fs-amb-seek" min="0" max="100" value="0">' +
