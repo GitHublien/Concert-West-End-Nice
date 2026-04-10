@@ -52,7 +52,7 @@ window.addEventListener('load', function() {
         '13': 'audio/13 - Duo de la mouche - Orphée et Euridice - Offenbach - Mastering.mp3',
         '14': "audio/14 - La barcarole - Les contes d'Hoffmann - Offenbach - Mastering.wav",
         '15': 'audio/15 - O mio babbino caro - Gianni Schicchi - Puccini - Mastering.mp3',
-        '16': 'audio/16 - O sole mio - Di Capua - Mastering.mp3'
+        '16': 'audio/16 - O sole mio - Di Capua - Mastering-new.mp3'
     };
 
     // NE PAS précharger — charger au clic seulement
