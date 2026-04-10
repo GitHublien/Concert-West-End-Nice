@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dîner-Opéra — Hôtel West End, Nice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=46">
+</head>
+<body>
+
+    <!-- SCÈNE PARALLAXE — TAPISSERIE + OBJETS EN COUCHES -->
+    <div id="parallax-intro">
+
+        <!-- Layer 0 : Fond tapisserie (ne bouge pas) -->
+        <picture class="parallax-bg">
+            <source media="(orientation: portrait)" srcset="images/Generees/scene/fond-tapisserie-9x16.png">
+            <img src="images/Generees/scene/fond-tapisserie-16x9.png" alt="" draggable="false">
+        </picture>
+
+        <div class="parallax-scene" id="parallax-scene">
+
+            <!-- === BOUGIE 1 + FUMÉE 1 (groupe, layer 5) === -->
+            <div class="p-obj" data-layer="5" data-exit="down" style="left:1.5%;top:15.5%;width:12%;z-index:1"><img src="images/Generees/scene/bougie-1.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="up" style="left:0.9%;top:6.8%;width:8%;z-index:1"><img src="images/Generees/scene/fumee-1.png" alt=""></div>
+
+            <!-- === BOUGIE 2 + FUMÉE 2 (groupe, layer 1) === -->
+            <div class="p-obj" data-layer="1" data-exit="down" style="left:53.3%;top:36.4%;width:21%" data-rotation="-10"><img src="images/Generees/scene/bougie-2.png" alt=""></div>
+            <div class="p-obj" data-layer="1" data-exit="up" style="left:53.6%;top:21.6%;width:16%;z-index:3" data-rotation="70"><img src="images/Generees/scene/fumee-2.png" alt=""></div>
+
+            <!-- === LAYER 1 === -->
+            <div class="p-obj" data-layer="1" data-exit="up" style="left:65%;top:-22.3%;width:28%" data-rotation="-60" data-blur="2" style="filter:blur(2px)"><img src="images/Generees/scene/assiette-1.png" alt=""></div>
+            <div class="p-obj" data-layer="1" data-exit="down" style="left:20.3%;top:-2.2%;width:7%"><img src="images/Generees/scene/assiette-2.png" alt=""></div>
+            <div class="p-obj" data-layer="1" data-exit="up" style="left:29%;top:-7.9%;width:8%;z-index:2" data-rotation="-60" data-mirror="true"><img src="images/Generees/scene/assiette-1.png" alt="" style="transform:scaleX(-1)"></div>
+
+            <!-- === LAYER 2 === -->
+            <div class="p-obj" data-layer="2" data-exit="down" style="left:29.4%;top:19.5%;width:14%"><img src="images/Generees/scene/verre-champagne.png" alt=""></div>
+            <div class="p-obj" data-layer="2" data-exit="left" style="left:-2%;top:44.6%;width:22%"><img src="images/Generees/scene/encrier.png" alt=""></div>
+            <div class="p-obj" data-layer="2" data-exit="up" style="left:41.2%;top:-9.4%;width:18%;z-index:-2"><img src="images/Generees/scene/noeud-papillon-1.png" alt=""></div>
+            <div class="p-obj" data-layer="2" data-exit="right" style="left:28.9%;top:49.6%;width:18%" data-rotation="-10"><img src="images/Generees/scene/plume-calligraphie.png" alt=""></div>
+            <div class="p-obj" data-layer="2" data-exit="down" style="left:10.9%;top:25.6%;width:26%"><img src="images/Generees/scene/couteau.png" alt=""></div>
+            <div class="p-obj" data-layer="2" data-exit="down" style="left:60.6%;top:71%;width:13%"><img src="images/Generees/scene/fourchette.png" alt=""></div>
+            <div class="p-obj" data-layer="2" data-exit="down" style="left:64.3%;top:25.4%;width:14%;z-index:1" data-rotation="-100"><img src="images/Generees/scene/cuillere.png" alt=""></div>
+            <div class="p-obj" data-layer="2" data-exit="right" style="left:58.6%;top:-5.4%;width:18%" data-rotation="30"><img src="images/Generees/scene/vin-explosion.png" alt=""></div>
+
+            <!-- === LAYER 3 === -->
+            <div class="p-obj" data-layer="3" data-exit="left" style="left:14.3%;top:67.2%;width:14%"><img src="images/Generees/scene/rubans-soie.png" alt=""></div>
+            <div class="p-obj" data-layer="3" data-exit="left" style="left:38.3%;top:58.9%;width:18%;z-index:-1"><img src="images/Generees/scene/partitions-3d.png" alt=""></div>
+            <div class="p-obj" data-layer="3" data-exit="up" style="left:84.8%;top:-3.1%;width:16%;z-index:-1"><img src="images/Generees/scene/gant-gauche.png" alt=""></div>
+            <div class="p-obj" data-layer="3" data-exit="up" style="left:7.4%;top:-1.5%;width:14%"><img src="images/Generees/scene/gant-droit.png" alt=""></div>
+            <div class="p-obj" data-layer="3" data-exit="right" style="left:78.7%;top:57.2%;width:24%"><img src="images/Generees/scene/plumes-paon.png" alt=""></div>
+            <div class="p-obj" data-layer="3" data-exit="up" style="left:22.5%;top:21.9%;width:10%;z-index:-1" data-rotation="20"><img src="images/Generees/scene/notes-musique.png" alt=""></div>
+            <div class="p-obj" data-layer="3" data-exit="left" style="left:80.1%;top:39.9%;width:14%"><img src="images/Generees/scene/petales-rose-3d.png" alt=""></div>
+            <div class="p-obj" data-layer="3" data-exit="fade" style="left:76.3%;top:51.2%;width:17%"><img src="images/Generees/scene/petales-cercle.png" alt=""></div>
+
+            <!-- === LAYER 4 (cercle caché) === -->
+            <div class="p-obj" data-layer="4" data-exit="fade" style="left:6.1%;top:-91.7%;width:90%;z-index:-4;display:none"><img src="images/Generees/scene/cercle-opera.png" alt=""></div>
+
+            <!-- === LAYER 5 — Pétales, gouttes, effets === -->
+            <div class="p-obj" data-layer="5" data-exit="left" style="left:74.9%;top:47.2%;width:6%"><img src="images/Generees/scene/flou-petale-1.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="left:89.6%;top:58.4%;width:6%"><img src="images/Generees/scene/flou-petale-2.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="up" style="left:37.1%;top:18.6%;width:2%"><img src="images/Generees/scene/champagne-net-1.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="down" style="left:40.7%;top:13.8%;width:3%"><img src="images/Generees/scene/champagne-net-2.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="left" style="left:63.6%;top:66.4%;width:8%"><img src="images/Generees/scene/petale-net-1.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="left:84.3%;top:44%;width:11%"><img src="images/Generees/scene/petale-net-2.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="left" style="left:54.8%;top:74%;width:7%"><img src="images/Generees/scene/petale-net-3.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="left:67.4%;top:35%;width:2%"><img src="images/Generees/scene/petale-net-4.png" alt=""></div>
+            <!-- Copies pétales -->
+            <div class="p-obj" data-layer="5" data-exit="left" style="left:91.8%;top:77.3%;width:7%"><img src="images/Generees/scene/petale-net-3.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="left" style="left:78.8%;top:81.5%;width:4%"><img src="images/Generees/scene/petale-net-1.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="left:79.4%;top:13.7%;width:10%" data-mirror="true"><img src="images/Generees/scene/petale-net-1.png" alt="" style="transform:scaleX(-1)"></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="left:70.3%;top:57.5%;width:2%" data-mirror="true"><img src="images/Generees/scene/petale-net-4.png" alt="" style="transform:scaleX(-1)"></div>
+            <div class="p-obj" data-layer="5" data-exit="left" style="left:63.7%;top:52.1%;width:4%"><img src="images/Generees/scene/petale-net-3.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="left:68.8%;top:44.4%;width:7%"><img src="images/Generees/scene/petale-net-3.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="left" style="left:70.4%;top:53.7%;width:17%;z-index:1" data-blur="9" data-mirror="true"><img src="images/Generees/scene/petale-net-3.png" alt="" style="transform:scaleX(-1);filter:blur(9px)"></div>
+            <!-- Confettis -->
+            <div class="p-obj" data-layer="5" data-exit="left" style="left:-11.9%;top:17%;width:42%;z-index:-4"><img src="images/Generees/scene/flou-confettis-1.png" alt=""></div>
+            <!-- Fumée 2 en haut -->
+            <div class="p-obj" data-layer="5" data-exit="up" style="left:-2.3%;top:-2%;width:16%;z-index:-3" data-rotation="70"><img src="images/Generees/scene/fumee-2.png" alt=""></div>
+            <!-- Champagne copies -->
+            <div class="p-obj" data-layer="5" data-exit="down" style="left:70.8%;top:60.3%;width:3%" data-mirror="true"><img src="images/Generees/scene/champagne-net-2.png" alt="" style="transform:scaleX(-1)"></div>
+            <div class="p-obj" data-layer="5" data-exit="left" style="left:32%;top:16.1%;width:6%"><img src="images/Generees/scene/champagne-net-3.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="left:79.6%;top:48.9%;width:21%;z-index:4" data-blur="7.5"><img src="images/Generees/scene/champagne-net-4.png" alt="" style="filter:blur(7.5px)"></div>
+            <!-- Encre -->
+            <div class="p-obj" data-layer="5" data-exit="down" style="left:9.2%;top:39.5%;width:18%" data-blur="7"><img src="images/Generees/scene/encre-net-1.png" alt="" style="filter:blur(7px)"></div>
+            <div class="p-obj" data-layer="5" data-exit="left" style="left:32.7%;top:74.3%;width:11%" data-rotation="-85" data-blur="7.5" data-mirror="true"><img src="images/Generees/scene/encre-net-2.png" alt="" style="transform:scaleX(-1);filter:blur(7.5px)"></div>
+            <div class="p-obj" data-layer="5" data-exit="up" style="left:40.8%;top:87.3%;width:2%"><img src="images/Generees/scene/encre-net-3.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="left:44.4%;top:86.9%;width:3%"><img src="images/Generees/scene/encre-net-4.png" alt=""></div>
+            <!-- Copies champagne/verre groupe 7 -->
+            <div class="p-obj" data-layer="5" data-exit="down" style="left:67.8%;top:61.8%;width:16%;z-index:5"><img src="images/Generees/scene/verre-champagne.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="left:78.6%;top:62.8%;width:2%;z-index:6"><img src="images/Generees/scene/champagne-net-3.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="down" style="left:80.1%;top:65.5%;width:4%;z-index:7" data-rotation="-50"><img src="images/Generees/scene/champagne-net-4.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="left" style="left:75.2%;top:59.6%;width:2%;z-index:9"><img src="images/Generees/scene/champagne-net-3.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="left:67.8%;top:61.8%;width:2%;z-index:10"><img src="images/Generees/scene/champagne-net-3.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="left" style="left:77.4%;top:53.5%;width:6%;z-index:11"><img src="images/Generees/scene/champagne-net-3.png" alt=""></div>
+            <!-- Champagne flou copie -->
+            <div class="p-obj" data-layer="5" data-exit="up" style="left:27.2%;top:-2.9%;width:12%;z-index:4" data-blur="4.5"><img src="images/Generees/scene/champagne-net-3.png" alt="" style="filter:blur(4.5px)"></div>
+
+            <!-- OBJETS DISPONIBLES (cachés, dans le menu) -->
+            <div class="p-obj" data-layer="3" data-exit="right" style="display:none"><img src="images/Generees/scene/masques-venitiens.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="left" style="display:none"><img src="images/Generees/scene/flou-confettis-2.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="down" style="display:none"><img src="images/Generees/scene/flou-encre.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="display:none"><img src="images/Generees/scene/petale-net-2.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="display:none"><img src="images/Generees/scene/petale-net-4.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="down" style="display:none"><img src="images/Generees/scene/champagne-net-2.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="left" style="display:none"><img src="images/Generees/scene/champagne-net-3.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="display:none"><img src="images/Generees/scene/champagne-net-4.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="down" style="display:none"><img src="images/Generees/scene/encre-net-1.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="left" style="display:none"><img src="images/Generees/scene/encre-net-2.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="up" style="display:none"><img src="images/Generees/scene/encre-net-3.png" alt=""></div>
+            <div class="p-obj" data-layer="5" data-exit="right" style="display:none"><img src="images/Generees/scene/encre-net-4.png" alt=""></div>
+
+        </div>
+
+        <!-- Texte central -->
+        <div class="parallax-title" style="left:50.1%;top:41.7%">
+            <span class="pt-hotel">West End</span>
+            <h1 class="pt-main">Dîner <span class="pt-amp">&</span> Opéra</h1>
+            <button id="enter-btn">Découvrir le programme</button>
+        </div>
+    </div>
+
+    <!-- PARTICULES DORÉES FLOTTANTES (pour le reste du site) -->
+    <div id="golden-particles"></div>
+
+    <!-- NAVIGATION -->
+    <nav id="main-nav">
+        <div class="nav-logo">West End</div>
+        <ul class="nav-links">
+            <li><a href="#hero">Accueil</a></li>
+            <li><a href="#artistes-section">Artistes</a></li>
+            <li><a href="#programme">Programme</a></li>
+            <li><a href="#lieu">Le Lieu</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="hero">
+        <div class="hero-parallax-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-subtitle-top">L'Hôtel West End présente</p>
+            <h1 class="hero-title">
+                <span class="title-line">Dîner</span>
+                <span class="title-ampersand">&</span>
+                <span class="title-line">Opéra</span>
+            </h1>
+            <div class="hero-divider">
+                <span class="divider-line"></span>
+                <span class="divider-diamond">&#9830;</span>
+                <span class="divider-line"></span>
+            </div>
+            <p class="hero-date">Vendredi 10 Avril 2026</p>
+            <p class="hero-venue">Restaurant Le Siècle — 31 Promenade des Anglais, Nice</p>
+        </div>
+    </section>
+
+    <!-- SECTION INTRODUCTION -->
+    <section id="intro">
+        <div class="intro-content reveal">
+            <div class="gold-ornament">&#10047;</div>
+            <p class="intro-text">
+                Quatre voix exceptionnelles se réunissent pour la première fois
+                au cœur du mythique Hôtel West End. Entre les plats d'un dîner
+                raffiné, laissez-vous surprendre par des airs d'opéra interprétés
+                au plus près de vous, dans l'écrin Art Déco du restaurant Le Siècle.
+            </p>
+            <div class="gold-ornament">&#10047;</div>
+        </div>
+    </section>
+
+    <!-- SECTION ARTISTES — SCROLL-STOP -->
+    <section id="artistes-section">
+        <div class="section-header reveal">
+            <h2>Les Artistes</h2>
+            <div class="header-divider">
+                <span class="divider-line"></span>
+                <span class="divider-diamond">&#9830;</span>
+                <span class="divider-line"></span>
+            </div>
+        </div>
+
+        <!-- VANESSA — Scroll-stop -->
+        <div class="scroll-stop-block" data-artist="Vanessa" data-frames="50" data-path="images/Generees/Frames/Vanessa/frame_" data-ext=".jpg">
+            <div class="scroll-stop-sticky">
+                <canvas class="scroll-stop-canvas"></canvas>
+                <div class="artist-info">
+                    <h3 class="artist-name">Vanessa Fouillet</h3>
+                    <p class="artist-voice">Soprano</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- JÉRÉMY — Scroll-stop -->
+        <div class="scroll-stop-block" data-artist="Jeremy" data-frames="50" data-path="images/Generees/Frames/Jeremy/frame_" data-ext=".jpg">
+            <div class="scroll-stop-sticky">
+                <canvas class="scroll-stop-canvas"></canvas>
+                <div class="artist-info">
+                    <h3 class="artist-name">Jérémy Bertini</h3>
+                    <p class="artist-voice">Contre-ténor</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MICKAËL — Scroll-stop -->
+        <div class="scroll-stop-block" data-artist="Mickael" data-frames="50" data-path="images/Generees/Frames/Mickael/frame_" data-ext=".jpg">
+            <div class="scroll-stop-sticky">
+                <canvas class="scroll-stop-canvas"></canvas>
+                <div class="artist-info">
+                    <h3 class="artist-name">Mickaël Guedj</h3>
+                    <p class="artist-voice">Baryton</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- GILLES — Scroll-stop -->
+        <div class="scroll-stop-block" data-artist="Gilles" data-frames="50" data-path="images/Generees/Frames/Gilles/frame_" data-ext=".jpg">
+            <div class="scroll-stop-sticky">
+                <canvas class="scroll-stop-canvas"></canvas>
+                <div class="artist-info">
+                    <h3 class="artist-name">Gilles San Juan</h3>
+                    <p class="artist-voice">Ténor</p>
+                </div>
+            </div>
+        </div>
+
+        <p class="artistes-credit reveal">Direction artistique : <em>Laurie Jauffret</em></p>
+    </section>
+
+    <!-- SECTION PROGRAMME -->
+    <section id="programme">
+        <div class="section-header reveal">
+            <h2>Le Programme</h2>
+            <div class="header-divider">
+                <span class="divider-line"></span>
+                <span class="divider-diamond">&#9830;</span>
+                <span class="divider-line"></span>
+            </div>
+        </div>
+
+        <div class="programme-list">
+            <div class="programme-item reveal" data-num="01">
+                <div class="item-number">I</div>
+                <div class="item-content">
+                    <h3 class="item-title">Brindisi <span class="item-aka">(Libiamo ne' lieti calici)</span></h3>
+                    <p class="item-opera">La Traviata — <span class="item-composer">Giuseppe Verdi</span></p>
+                    <div class="item-singers"><span class="singer-tag">Gilles</span><span class="singer-tag">Vanessa</span></div>
+                </div>
+                <button class="play-btn" data-track="01" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="02">
+                <div class="item-number">II</div>
+                <div class="item-content">
+                    <h3 class="item-title">Cara sposa</h3>
+                    <p class="item-opera">Rinaldo — <span class="item-composer">Georg Friedrich Händel</span></p>
+                    <div class="item-singers"><span class="singer-tag">Jérémy</span></div>
+                </div>
+                <button class="play-btn" data-track="02" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="03">
+                <div class="item-number">III</div>
+                <div class="item-content">
+                    <h3 class="item-title">Là ci darem la mano</h3>
+                    <p class="item-opera">Don Giovanni — <span class="item-composer">Wolfgang Amadeus Mozart</span></p>
+                    <div class="item-singers"><span class="singer-tag">Vanessa</span><span class="singer-tag">Mickaël</span></div>
+                </div>
+                <button class="play-btn" data-track="03" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="04">
+                <div class="item-number">IV</div>
+                <div class="item-content">
+                    <h3 class="item-title">La donna è mobile</h3>
+                    <p class="item-opera">Rigoletto — <span class="item-composer">Giuseppe Verdi</span></p>
+                    <div class="item-singers"><span class="singer-tag">Gilles</span></div>
+                </div>
+                <button class="play-btn" data-track="04" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="05">
+                <div class="item-number">V</div>
+                <div class="item-content">
+                    <h3 class="item-title">Duo des fleurs</h3>
+                    <p class="item-opera">Lakmé — <span class="item-composer">Léo Delibes</span></p>
+                    <div class="item-singers"><span class="singer-tag">Vanessa</span><span class="singer-tag">Jérémy</span></div>
+                </div>
+                <button class="play-btn" data-track="05" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="06">
+                <div class="item-number">VI</div>
+                <div class="item-content">
+                    <h3 class="item-title">Largo al factotum</h3>
+                    <p class="item-opera">Le Barbier de Séville — <span class="item-composer">Gioachino Rossini</span></p>
+                    <div class="item-singers"><span class="singer-tag">Mickaël</span></div>
+                </div>
+                <button class="play-btn" data-track="06" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="07">
+                <div class="item-number">VII</div>
+                <div class="item-content">
+                    <h3 class="item-title">Lacrimosa</h3>
+                    <p class="item-opera">Requiem — <span class="item-composer">Wolfgang Amadeus Mozart</span></p>
+                    <div class="item-singers"><span class="singer-tag">Vanessa</span><span class="singer-tag">Jérémy</span><span class="singer-tag">Gilles</span></div>
+                </div>
+                <button class="play-btn" data-track="07" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="08">
+                <div class="item-number">VIII</div>
+                <div class="item-content">
+                    <h3 class="item-title">Lascia ch'io pianga</h3>
+                    <p class="item-opera">Rinaldo — <span class="item-composer">Georg Friedrich Händel</span></p>
+                    <div class="item-singers"><span class="singer-tag">Jérémy</span></div>
+                </div>
+                <button class="play-btn" data-track="08" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="09">
+                <div class="item-number">IX</div>
+                <div class="item-content">
+                    <h3 class="item-title">Au fond du temple saint</h3>
+                    <p class="item-opera">Les Pêcheurs de perles — <span class="item-composer">Georges Bizet</span></p>
+                    <div class="item-singers"><span class="singer-tag">Gilles</span><span class="singer-tag">Mickaël</span></div>
+                </div>
+                <button class="play-btn" data-track="09" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="10">
+                <div class="item-number">X</div>
+                <div class="item-content">
+                    <h3 class="item-title">Je veux vivre</h3>
+                    <p class="item-opera">Roméo et Juliette — <span class="item-composer">Charles Gounod</span></p>
+                    <div class="item-singers"><span class="singer-tag">Vanessa</span></div>
+                </div>
+                <button class="play-btn" data-track="10" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="11">
+                <div class="item-number">XI</div>
+                <div class="item-content">
+                    <h3 class="item-title">Votre toast <span class="item-aka">(Air du Toréador)</span></h3>
+                    <p class="item-opera">Carmen — <span class="item-composer">Georges Bizet</span></p>
+                    <div class="item-singers"><span class="singer-tag">Mickaël</span></div>
+                </div>
+                <button class="play-btn" data-track="11" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="12">
+                <div class="item-number">XII</div>
+                <div class="item-content">
+                    <h3 class="item-title">Va, pensiero</h3>
+                    <p class="item-opera">Nabucco — <span class="item-composer">Giuseppe Verdi</span></p>
+                    <div class="item-singers"><span class="singer-tag">Gilles</span></div>
+                </div>
+                <button class="play-btn" data-track="12" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="13">
+                <div class="item-number">XIII</div>
+                <div class="item-content">
+                    <h3 class="item-title">Duo de la mouche</h3>
+                    <p class="item-opera">Orphée aux Enfers — <span class="item-composer">Jacques Offenbach</span></p>
+                    <div class="item-singers"><span class="singer-tag">Mickaël</span><span class="singer-tag">Vanessa</span></div>
+                </div>
+                <button class="play-btn" data-track="13" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="14">
+                <div class="item-number">XIV</div>
+                <div class="item-content">
+                    <h3 class="item-title">La Barcarolle</h3>
+                    <p class="item-opera">Les Contes d'Hoffmann — <span class="item-composer">Jacques Offenbach</span></p>
+                    <div class="item-singers"><span class="singer-tag">Jérémy</span><span class="singer-tag">Gilles</span></div>
+                </div>
+                <button class="play-btn" data-track="14" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item reveal" data-num="15">
+                <div class="item-number">XV</div>
+                <div class="item-content">
+                    <h3 class="item-title">O mio babbino caro</h3>
+                    <p class="item-opera">Gianni Schicchi — <span class="item-composer">Giacomo Puccini</span></p>
+                    <div class="item-singers"><span class="singer-tag">Vanessa</span></div>
+                </div>
+                <button class="play-btn" data-track="15" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+            <div class="programme-item finale reveal" data-num="16">
+                <div class="item-number">XVI</div>
+                <div class="item-content">
+                    <h3 class="item-title">O sole mio</h3>
+                    <p class="item-opera"><span class="item-composer">Eduardo di Capua</span></p>
+                    <div class="item-singers">
+                        <span class="singer-tag all">Vanessa</span><span class="singer-tag all">Jérémy</span><span class="singer-tag all">Mickaël</span><span class="singer-tag all">Gilles</span>
+                    </div>
+                </div>
+                <button class="play-btn" data-track="16" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION LIEU -->
+    <section id="lieu">
+        <div class="lieu-parallax-bg"></div>
+        <div class="lieu-overlay"></div>
+        <div class="lieu-content reveal">
+            <h2>Le Siècle</h2>
+            <div class="header-divider">
+                <span class="divider-line"></span>
+                <span class="divider-diamond">&#9830;</span>
+                <span class="divider-line"></span>
+            </div>
+            <p class="lieu-description">
+                Premier hôtel de la Promenade des Anglais depuis 1842,
+                l'Hôtel West End vous accueille dans son restaurant
+                Le Siècle, joyau d'architecture Art Nouveau aux
+                banquettes de velours rouge et à la verrière Art Déco.
+            </p>
+            <div class="lieu-info">
+                <div class="lieu-detail">
+                    <span class="detail-label">Adresse</span>
+                    <span class="detail-value">31 Promenade des Anglais, Nice</span>
+                </div>
+                <div class="lieu-detail">
+                    <span class="detail-label">Réservations</span>
+                    <span class="detail-value">04 92 14 44 09</span>
+                </div>
+                <div class="lieu-detail">
+                    <span class="detail-label">Site</span>
+                    <span class="detail-value">hotel-westend.com</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+        <div class="footer-ornament">&#10047;</div>
+        <p class="footer-concept">Un concept créé par <strong>Laurie Jauffret</strong></p>
+        <p class="footer-hotel">Hôtel West End &mdash; Nice, Côte d'Azur</p>
+        <div class="footer-ornament">&#10047;</div>
+    </footer>
+
+    <!-- LECTEUR AUDIO GLOBAL -->
+    <div id="audio-player" class="audio-player hidden">
+        <div class="player-info">
+            <span class="player-title"></span>
+            <span class="player-composer"></span>
+        </div>
+        <div class="player-controls">
+            <!-- Prev -->
+            <button class="player-nav-btn" id="prev-btn" aria-label="Précédent" title="Morceau précédent">
+                <svg viewBox="0 0 24 24" width="16" height="16"><polygon points="19,3 9,12 19,21" fill="currentColor"/><rect x="5" y="3" width="3" height="18" fill="currentColor"/></svg>
+            </button>
+            <!-- Stop -->
+            <button class="player-nav-btn" id="stop-btn" aria-label="Stop" title="Stop">
+                <svg viewBox="0 0 24 24" width="16" height="16"><rect x="4" y="4" width="16" height="16" fill="currentColor"/></svg>
+            </button>
+            <!-- Play/Pause -->
+            <button class="player-play-pause" aria-label="Lecture/Pause">
+                <svg class="icon-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+            </button>
+            <!-- Next -->
+            <button class="player-nav-btn" id="next-btn" aria-label="Suivant" title="Morceau suivant">
+                <svg viewBox="0 0 24 24" width="16" height="16"><polygon points="5,3 15,12 5,21" fill="currentColor"/><rect x="16" y="3" width="3" height="18" fill="currentColor"/></svg>
+            </button>
+            <div class="player-progress">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <span class="player-time">0:00</span>
+            </div>
+            <!-- Volume -->
+            <div class="player-volume">
+                <svg viewBox="0 0 24 24" width="14" height="14"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/></svg>
+                <input type="range" id="volume-slider" min="0" max="100" value="100" title="Volume">
+            </div>
+            <button class="player-close" aria-label="Fermer">&times;</button>
+        </div>
+        <audio id="audio-element"></audio>
+    </div>
+
+    <script src="js/main.js?v=37"></script>
+    <script src="js/audio-player.js?v=6"></script>
+    <!-- ÉDITEUR TEMPORAIRE — à supprimer quand le placement est fini -->
+    <script src="js/editor.js?v=41"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# WAV trop lourds pour GitHub
+audio/*.wav
+
+# Fichiers temporaires
+test-audio.html
+test-audio2.html
+lecteur.html
+*.tmp
+*.tmp.mp3
+audio/16 - O sole mio - Di Capua - Mastering.mp3.tmp.mp3
+audio/16 - O sole mio - Di Capua - Mastering.mp3
