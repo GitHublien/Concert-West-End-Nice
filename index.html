@@ -483,12 +483,26 @@
             <label class="set-auto-label"><input type="checkbox" id="auto-next" checked> Auto</label>
         </div>
         <div class="set-controls">
-            <div class="set-label">Délai :</div>
+            <div class="set-label">Délai ambiance :</div>
             <button class="set-btn" id="delay-minus">−</button>
             <span class="set-count" id="delay-count">10</span>
             <button class="set-btn" id="delay-plus">+</button>
             <span class="set-delay-label">s</span>
         </div>
+        <div class="set-controls">
+            <label class="set-auto-label"><input type="checkbox" id="smart-mode"> 🎤 Mode Smart</label>
+            <div class="set-label" style="margin-left:10px;">Après applaudissements :</div>
+            <button class="set-btn" id="applause-minus">−</button>
+            <span class="set-count" id="applause-count">4</span>
+            <button class="set-btn" id="applause-plus">+</button>
+            <span class="set-delay-label">s</span>
+        </div>
+        <div id="smart-status" style="display:none;text-align:center;padding:5px 15px;font-size:0.85rem;color:#c9a84c;"></div>
+    </div>
+
+    <!-- BOUTON SUIVANT — gros bouton d'urgence -->
+    <div id="next-now-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:80px;z-index:10002;display:none;align-items:center;justify-content:center;">
+        <button id="next-now-btn" style="width:200px;height:200px;border-radius:50%;background:rgba(201,168,76,0.15);border:3px solid #c9a84c;color:#c9a84c;font-size:2.5rem;cursor:pointer;font-family:inherit;backdrop-filter:blur(5px);transition:all 0.3s;">SUIVANT ▶</button>
     </div>
 
     <!-- LECTEUR AMBIANCE — séparé -->

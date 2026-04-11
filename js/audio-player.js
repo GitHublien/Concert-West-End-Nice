@@ -717,6 +717,192 @@ window.addEventListener('load', function() {
     });
 
     // ============================================
+    // MODE SMART — Détection applaudissements
+    // ============================================
+    var smartMode = false;
+    var applauseDelay = 4; // secondes après applaudissements
+    var micStream = null;
+    var audioContext = null;
+    var analyser = null;
+    var smartListening = false;
+    var silenceTimer = null;
+    var waitingForNext = false;
+
+    var smartCb = document.getElementById('smart-mode');
+    var smartStatus = document.getElementById('smart-status');
+    var applausePlus = document.getElementById('applause-plus');
+    var applauseMinus = document.getElementById('applause-minus');
+    var applauseCount = document.getElementById('applause-count');
+    var nextNowOverlay = document.getElementById('next-now-overlay');
+    var nextNowBtn = document.getElementById('next-now-btn');
+
+    // Délai après applaudissements +/-
+    if (applausePlus) applausePlus.onclick = function() {
+        applauseDelay++;
+        applauseCount.textContent = applauseDelay;
+    };
+    if (applauseMinus) applauseMinus.onclick = function() {
+        if (applauseDelay > 1) applauseDelay--;
+        applauseCount.textContent = applauseDelay;
+    };
+
+    // Activer/désactiver le mode Smart
+    if (smartCb) smartCb.onchange = function() {
+        smartMode = smartCb.checked;
+        if (smartMode && !micStream) {
+            // Demander l'accès au micro
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+                micStream = stream;
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                var source = audioContext.createMediaStreamSource(stream);
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                source.connect(analyser);
+                if (smartStatus) {
+                    smartStatus.style.display = 'block';
+                    smartStatus.textContent = '🎤 Micro activé — Mode Smart prêt';
+                }
+                console.log('Micro activé pour le mode Smart');
+            }).catch(function(err) {
+                console.error('Erreur micro:', err);
+                smartCb.checked = false;
+                smartMode = false;
+                if (smartStatus) {
+                    smartStatus.style.display = 'block';
+                    smartStatus.textContent = '❌ Micro refusé — Mode Smart désactivé';
+                }
+            });
+        }
+    };
+
+    // Mesurer le niveau sonore du micro
+    function getMicLevel() {
+        if (!analyser) return 0;
+        var data = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(data);
+        var sum = 0;
+        for (var i = 0; i < data.length; i++) sum += data[i];
+        return sum / data.length / 255; // 0 à 1
+    }
+
+    // Commencer à écouter les applaudissements
+    function startSmartListening() {
+        if (!smartMode || !analyser) return;
+        smartListening = true;
+        waitingForNext = true;
+        var silenceCount = 0;
+        var applauseDetected = false;
+
+        // Afficher le bouton SUIVANT
+        if (nextNowOverlay) nextNowOverlay.style.display = 'flex';
+
+        function listen() {
+            if (!smartListening) return;
+            var level = getMicLevel();
+            var percent = Math.round(level * 100);
+
+            if (level > 0.3) {
+                // Bruit fort (applaudissements)
+                applauseDetected = true;
+                silenceCount = 0;
+                if (smartStatus) smartStatus.textContent = '👏 Applaudissements détectés... (' + percent + '%)';
+                clearTimeout(silenceTimer);
+            } else if (applauseDetected && level < 0.15) {
+                // Le silence revient après des applaudissements
+                silenceCount++;
+                var secondsLeft = applauseDelay - Math.floor(silenceCount / 10);
+                if (smartStatus) smartStatus.textContent = '🤫 Silence... morceau suivant dans ' + Math.max(0, secondsLeft) + 's';
+
+                if (silenceCount > applauseDelay * 10) {
+                    // Assez de silence — lancer le morceau suivant
+                    smartListening = false;
+                    waitingForNext = false;
+                    if (nextNowOverlay) nextNowOverlay.style.display = 'none';
+                    if (smartStatus) smartStatus.textContent = '▶ Lancement du morceau suivant...';
+                    launchNextTrack();
+                    return;
+                }
+            } else if (!applauseDetected) {
+                // Pas encore d'applaudissements — attendre
+                silenceCount++;
+                if (smartStatus) smartStatus.textContent = '🎤 En écoute... (' + percent + '%)';
+
+                // Si aucun applaudissement après 30 secondes, considérer que c'est bon
+                if (silenceCount > 300) {
+                    smartListening = false;
+                    waitingForNext = false;
+                    if (nextNowOverlay) nextNowOverlay.style.display = 'none';
+                    if (smartStatus) smartStatus.textContent = '▶ Pas d\'applaudissements — lancement...';
+                    launchNextTrack();
+                    return;
+                }
+            }
+
+            setTimeout(listen, 100); // Vérifier 10 fois par seconde
+        }
+
+        listen();
+    }
+
+    // Lancer le morceau suivant
+    function launchNextTrack() {
+        if (!currentTrack) return;
+        var idx = trackOrder.indexOf(currentTrack);
+        var nextIdx = idx + 1;
+        if (nextIdx < trackOrder.length) {
+            var nextTrack = trackOrder[nextIdx];
+            var btn = document.querySelector('.play-btn[data-track="' + nextTrack + '"]');
+            if (btn) btn.click();
+        }
+        setTimeout(function() {
+            if (smartStatus) smartStatus.textContent = '';
+        }, 3000);
+    }
+
+    // Bouton SUIVANT — forcer le lancement
+    if (nextNowBtn) nextNowBtn.onclick = function() {
+        smartListening = false;
+        waitingForNext = false;
+        if (nextNowOverlay) nextNowOverlay.style.display = 'none';
+        if (smartStatus) smartStatus.textContent = '▶ Lancement manuel...';
+        launchNextTrack();
+    };
+
+    // Modifier le onended pour utiliser le mode Smart
+    for (var sid in audioElements) {
+        (function(audio, trackId) {
+            var origEnded = audio.onended;
+            audio.onended = function() {
+                isPlaying = false;
+                playPauseBtn.querySelector('.icon-play').style.display = 'block';
+                playPauseBtn.querySelector('.icon-pause').style.display = 'none';
+                player.classList.remove('playing');
+                var all = document.querySelectorAll('.play-btn.playing');
+                for (var j = 0; j < all.length; j++) all[j].classList.remove('playing');
+
+                // Décrémenter le set
+                if (setSize > 0) {
+                    setRemaining--;
+                    if (setRemaining <= 0) {
+                        if (setRemainingEl) setRemainingEl.textContent = '(set terminé)';
+                        setTimeout(function() { startAmbiance(); }, ambDelay * 1000);
+                        return;
+                    }
+                    if (setRemainingEl) setRemainingEl.textContent = '(reste ' + setRemaining + ')';
+                }
+
+                // Mode Smart : écouter les applaudissements
+                if (smartMode && analyser) {
+                    startSmartListening();
+                } else if (autoNext) {
+                    // Mode normal : délai fixe puis morceau suivant
+                    setTimeout(function() { launchNextTrack(); }, 2000);
+                }
+            };
+        })(audioElements[sid], sid);
+    }
+
+    // ============================================
     // EMPÊCHER LA MISE EN VEILLE (Wake Lock)
     // ============================================
     var wakeLock = null;
