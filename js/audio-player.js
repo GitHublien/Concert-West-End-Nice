@@ -804,6 +804,11 @@ window.addEventListener('load', function() {
         if (nextNowOverlay) nextNowOverlay.style.display = 'flex';
         if (vuCountdown) vuCountdown.textContent = '';
 
+        var loudCount = 0; // compteur de bruit fort continu
+        var APPLAUSE_THRESHOLD = 0.2; // seuil de niveau pour applaudissements
+        var APPLAUSE_DURATION = 20; // 20 ticks x 100ms = 2 secondes de bruit fort = applaudissements confirmés
+        var SILENCE_THRESHOLD = 0.08; // en dessous = silence
+
         function listen() {
             if (!smartListening) return;
             var level = getMicLevel();
@@ -811,59 +816,77 @@ window.addEventListener('load', function() {
 
             // Animer le VU-mètre
             if (vuFill) {
-                vuFill.style.width = percent + '%';
-                // Couleur selon le niveau
-                if (level > 0.3) {
-                    vuFill.style.background = 'linear-gradient(90deg, #0f0, #ff0, #f00)';
-                } else if (level > 0.15) {
-                    vuFill.style.background = 'linear-gradient(90deg, #0f0, #ff0)';
+                vuFill.style.width = Math.min(100, percent * 2) + '%';
+                if (applauseDetected) {
+                    vuFill.style.background = 'linear-gradient(90deg, #f80, #f00, #f0f)';
+                } else if (level > APPLAUSE_THRESHOLD) {
+                    vuFill.style.background = 'linear-gradient(90deg, #0f0, #ff0, #f80)';
                 } else {
                     vuFill.style.background = '#0f0';
                 }
             }
             if (vuPercent) vuPercent.textContent = percent + '%';
 
-            if (level > 0.15) {
-                // Bruit détecté (applaudissements ou autre)
-                applauseDetected = true;
-                silenceCount = 0;
-                if (level > 0.4) {
-                    if (smartStatus) smartStatus.textContent = '👏👏👏 APPLAUDISSEMENTS !';
+            if (level > APPLAUSE_THRESHOLD) {
+                loudCount++;
+
+                if (loudCount >= APPLAUSE_DURATION && !applauseDetected) {
+                    // Bruit fort pendant 2+ secondes = APPLAUDISSEMENTS CONFIRMÉS
+                    applauseDetected = true;
+                    if (smartStatus) smartStatus.textContent = '👏👏👏 APPLAUDISSEMENTS DÉTECTÉS !';
+                    if (vuCountdown) vuCountdown.textContent = '👏';
+                } else if (applauseDetected) {
+                    // Applaudissements en cours
+                    silenceCount = 0;
+                    if (smartStatus) smartStatus.textContent = '👏 Applaudissements en cours...';
                     if (vuCountdown) vuCountdown.textContent = '👏';
                 } else {
-                    if (smartStatus) smartStatus.textContent = '👏 Applaudissements...';
-                    if (vuCountdown) vuCountdown.textContent = '👏';
+                    // Bruit fort mais pas encore 2 secondes — peut-être juste un verre
+                    if (smartStatus) smartStatus.textContent = '🎤 En écoute... (bruit détecté)';
                 }
-            } else if (applauseDetected && level < 0.08) {
-                // Calme revenu après du bruit
-                silenceCount++;
-                var secondsLeft = Math.max(0, Math.ceil(applauseDelay - silenceCount / 10));
-                if (smartStatus) smartStatus.textContent = '🤫 Calme...';
-                if (vuCountdown) vuCountdown.textContent = secondsLeft > 0 ? '⏱ ' + secondsLeft : '▶ GO !';
+            } else {
+                // Niveau bas
+                loudCount = 0; // reset le compteur de bruit fort
 
-                if (silenceCount >= applauseDelay * 10) {
-                    stopSmartListening();
-                    if (smartStatus) smartStatus.textContent = '▶ C\'est parti !';
-                    if (vuCountdown) vuCountdown.textContent = '🎵';
-                    launchNextTrack();
-                    return;
-                }
-            } else if (applauseDetected && level >= 0.08) {
-                // Encore un peu de bruit — reset
-                silenceCount = 0;
-                if (smartStatus) smartStatus.textContent = '🔊 J\'attends le calme...';
-                if (vuCountdown) vuCountdown.textContent = '';
-            } else if (!applauseDetected) {
-                // Pas encore de bruit — attendre un peu puis lancer
-                silenceCount++;
-                if (smartStatus) smartStatus.textContent = '🎤 En attente...';
+                if (applauseDetected && level < SILENCE_THRESHOLD) {
+                    // Les applaudissements sont finis, le calme revient
+                    silenceCount++;
+                    var secondsLeft = Math.max(0, Math.ceil(applauseDelay - silenceCount / 10));
+                    if (smartStatus) smartStatus.textContent = '🤫 Calme revenu...';
+                    if (vuCountdown) {
+                        if (secondsLeft > 0) {
+                            vuCountdown.textContent = '⏱ ' + secondsLeft + 's';
+                            vuCountdown.style.color = '#c9a84c';
+                        } else {
+                            vuCountdown.textContent = '▶ GO !';
+                            vuCountdown.style.color = '#0f0';
+                        }
+                    }
 
-                if (silenceCount > 80) {
-                    // 8 secondes sans rien — lancer
-                    stopSmartListening();
-                    if (smartStatus) smartStatus.textContent = '▶ Lancement...';
-                    launchNextTrack();
-                    return;
+                    if (silenceCount >= applauseDelay * 10) {
+                        stopSmartListening();
+                        if (smartStatus) smartStatus.textContent = '▶ C\'est parti !';
+                        if (vuCountdown) vuCountdown.textContent = '🎵';
+                        launchNextTrack();
+                        return;
+                    }
+                } else if (applauseDetected && level >= SILENCE_THRESHOLD) {
+                    // Encore un peu de bruit après applaudissements — reset silence
+                    silenceCount = 0;
+                    if (smartStatus) smartStatus.textContent = '🔊 Encore du bruit...';
+                    if (vuCountdown) vuCountdown.textContent = '';
+                } else if (!applauseDetected) {
+                    // Pas d'applaudissements détectés — juste du bruit de fond normal
+                    silenceCount++;
+                    if (smartStatus) smartStatus.textContent = '🎤 En attente d\'applaudissements...';
+
+                    // Après 15 secondes sans applaudissements — lancer quand même
+                    if (silenceCount > 150) {
+                        stopSmartListening();
+                        if (smartStatus) smartStatus.textContent = '▶ Pas d\'applaudissements — lancement...';
+                        launchNextTrack();
+                        return;
+                    }
                 }
             }
 
