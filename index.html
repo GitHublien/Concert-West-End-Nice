@@ -498,6 +498,17 @@
             <span class="set-delay-label">s</span>
         </div>
         <div id="smart-status" style="display:none;text-align:center;padding:5px 15px;font-size:0.85rem;color:#c9a84c;"></div>
+        <div id="smart-vu" style="display:none;padding:5px 30px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span style="color:#888;font-size:0.75rem;">🎤</span>
+                <div id="vu-bar-bg" style="flex:1;height:12px;background:rgba(255,255,255,0.1);border-radius:6px;overflow:hidden;position:relative;">
+                    <div id="vu-bar-fill" style="height:100%;width:0%;border-radius:6px;transition:width 0.1s;background:linear-gradient(90deg,#0f0 0%,#ff0 50%,#f00 100%);"></div>
+                    <div id="vu-threshold" style="position:absolute;top:0;bottom:0;width:2px;background:#fff;opacity:0.5;left:30%;"></div>
+                </div>
+                <span id="vu-percent" style="color:#888;font-size:0.75rem;min-width:30px;">0%</span>
+            </div>
+            <div id="vu-countdown" style="text-align:center;color:#c9a84c;font-size:1.2rem;font-weight:bold;margin-top:5px;"></div>
+        </div>
     </div>
 
     <!-- BOUTON SUIVANT — gros bouton d'urgence -->
